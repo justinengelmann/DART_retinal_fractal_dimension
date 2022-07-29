@@ -19,11 +19,9 @@ robustness to image quality issues. For more in-depth results see our [preprint]
 ```python
 # simply create an inference pipeline
 from dart import get_inference_pipeline
-
 inference_pipeline = get_inference_pipeline(model_name='resnet18')
-
-# your retinal fundus color image, ideally square and no large black borders
-# PIL image or numpy array
+# your retinal fundus color image, PIL image or numpy array
+# ideally square and no large black borders, and similar in appearance to UK Biobank / DRIVE
 your_image = ...
 FD_of_your_image = inference_pipeline(your_image)[0]
 print('Fractal dimension of your image is:', FD_of_your_image)
@@ -32,28 +30,25 @@ print('Fractal dimension of your image is:', FD_of_your_image)
 ### Other ways to use DART
 
 ```python
-# 1. access the components of the inference pipeline themselves
-from dart import get_model_and_processing
-
-# this returns a dict containing the model, preprocessing and postprocessing pipelines, and config
-model_and_processing = get_model_and_processing(model_name='resnet18')
-your_image = ...
-your_image_preprocessed = model_and_processing['preprocessing'](your_image)
-FD_unscaled = model_and_processing['model'](your_image_preprocessed)
-FD_of_your_image = model_and_processing['postprocessing'](FD_unscaled)
-
-# 2. batched inference with the inference pipeline (faster than single images)
+# 1. batched inference with the inference pipeline (faster than single images)
 from dart import get_inference_pipeline
-
 inference_pipeline = get_inference_pipeline(model_name='resnet18')
 # iterate over your torch style dataloader
 for batch_of_images in your_torch_data_loader:
     batch_of_images.cuda()  # if using GPU
     FD_of_batch = inference_pipeline(batch_of_images)[0]  # returns np array on cpu
 
-# 3. access the model directly
+# 2. access the components of the inference pipeline themselves
+from dart import get_model_and_processing
+# this returns a dict containing the model, preprocessing and postprocessing pipelines, and config
+model_and_processing = get_model_and_processing(model_name='resnet18')
+your_image = ...
+your_image_preprocessed = model_and_processing['preprocessing'](your_image)
+FD_unscaled = model_and_processing['model'](your_image_preprocessed)
+FD_of_your_image = model_and_processing['postprocessing'](FD_unscaled)
+    
+# 3. access just the model
 from dart import load_model
-
 # pytorch compatible model, e.g. for writing your own highly efficient inference loop 
 # (with your own preprocessing and postprocessing, see the cfg for details)
 model = load_model(model_name='resnet18')
@@ -70,7 +65,7 @@ If you use our work, please cite our preprint:
 }
 ```
 
-as well as any and all relevant publications by the VAMPIRE authors, for exampple:
+as well as any and all relevant publications by the VAMPIRE authors, for example:
 
 ```
 @inproceedings{trucco2013novel,
