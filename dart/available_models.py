@@ -3,8 +3,9 @@ from timm.data.constants import IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD
 model_cfgs = {
     'resnet18': {
         'model_name': 'FD_resnet18',
-        'url': 'https://github.com/justinengelmann/DART_retinal_fractal_dimension/releases/download/v0.1/resnet18_v0_1.pth',
-        'local_path': '/home/jengelmann/DART_retinal_fractal_dimension/FD_resnet18_v0_1.pth',
+        'url': 'https://github.com/justinengelmann/DART_retinal_fractal_dimension/releases/download/v0.1/FD_resnet18_v0_1.pth',
+        # no argument to load this yet, but you can easily adapt to code or load it directly; jit might be a bit less brittle
+        'jit_url': 'https://github.com/justinengelmann/DART_retinal_fractal_dimension/releases/download/v0.1/FD_resnet18_jit_v0_1.pth',
         'input_size': (3, 224, 224),
         'norm_mean_stds': (IMAGENET_DEFAULT_MEAN, IMAGENET_DEFAULT_STD),
         'output_size': 1,
