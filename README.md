@@ -3,6 +3,11 @@
 **Preprint**: https://arxiv.org/abs/2207.05757
 (to appear in the Proceedings of the 9th MICCAI Workshop on Ophthalmic Medical Image Analysis at MICCAI 2022)
 
+DART allows to compute retinal traits very quickly (200-1,000 img/s) and in a way that is more robust to image quality
+issues. We achieve that by approximating an existing pipeline for calculating a retinal trait with a deep neural
+network. This network outputs the target value directly, without any intermediate steps, and can be trained to ignore
+quality variations.
+
 Currently, we support retinal Fractal Dimension FD as calculated by VAMPIRE (an awesome tool,
 see: https://vampire.computing.dundee.ac.uk/index.html) with the multi-fractal method. FD is a measure of how
 complex/branching the retinal vasculature is.
@@ -19,6 +24,7 @@ robustness to image quality issues. For more in-depth results see our [preprint]
 ```python
 # simply create an inference pipeline
 from dart import get_inference_pipeline
+
 inference_pipeline = get_inference_pipeline(model_name='resnet18')
 # your retinal fundus color image, PIL image or numpy array
 # ideally square and no large black borders, and similar in appearance to UK Biobank / DRIVE
@@ -27,11 +33,26 @@ FD_of_your_image = inference_pipeline(your_image)[0]
 print('Fractal dimension of your image is:', FD_of_your_image)
 ```
 
+#### Installation / Setup
+
+I aimed to keep dependencies fairly low. You should only need to install the following dependencies:
+
+* A more or less recent version of PyTorch
+* timm (pytorch image models)
+
+Optionally, you can also install albumentations. The model was trained with albumentations for data augmentation, but
+the torchvision equivalents of the preprocessing functions yield the same results up to tiny differences in the order of
+1e-7 for the input images, and no difference in the output (in my limited testing).
+
+If you run into any issues, please feel free to email me / open an issue. If you have a specific use case, it should be
+possible to make a pytorch-free version of DART. (E.g. numpy-only inference pipeline)
+
 ### Other ways to use DART
 
 ```python
 # 1. batched inference with the inference pipeline (faster than single images)
 from dart import get_inference_pipeline
+
 inference_pipeline = get_inference_pipeline(model_name='resnet18')
 # iterate over your torch style dataloader
 for batch_of_images in your_torch_data_loader:
@@ -40,15 +61,17 @@ for batch_of_images in your_torch_data_loader:
 
 # 2. access the components of the inference pipeline themselves
 from dart import get_model_and_processing
+
 # this returns a dict containing the model, preprocessing and postprocessing pipelines, and config
 model_and_processing = get_model_and_processing(model_name='resnet18')
 your_image = ...
 your_image_preprocessed = model_and_processing['preprocessing'](your_image)
 FD_unscaled = model_and_processing['model'](your_image_preprocessed)
 FD_of_your_image = model_and_processing['postprocessing'](FD_unscaled)
-    
+
 # 3. access just the model
 from dart import load_model
+
 # pytorch compatible model, e.g. for writing your own highly efficient inference loop 
 # (with your own preprocessing and postprocessing, see the cfg for details)
 model = load_model(model_name='resnet18')
