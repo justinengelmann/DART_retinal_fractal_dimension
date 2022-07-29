@@ -30,7 +30,9 @@ def load_model(model_name='resnet18', device='cuda_if_available', pbar=True, ver
     try:
         filepath = download_model(url=url, pbar=pbar, verbose=verbose)
     except HTTPError:
-        filepath = cfg['local_path']
+        raise ValueError(f'Could not download model {model_name} from {url}.'
+                         f'Check the releases https://github.com/justinengelmann/DART_retinal_fractal_dimension/releases/'
+                         f'and your internet connection.')
 
     model = torch.load(filepath, map_location=device)
     model.eval()
