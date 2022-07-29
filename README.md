@@ -24,10 +24,9 @@ robustness to image quality issues. For more in-depth results see our [preprint]
 ```python
 # simply create an inference pipeline
 from dart import get_inference_pipeline
-
 inference_pipeline = get_inference_pipeline(model_name='resnet18')
 # your retinal fundus color image, PIL image or numpy array
-# ideally square and no large black borders, and similar in appearance to UK Biobank / DRIVE
+# ideally square, no large black borders, and similar in appearance to UK Biobank / DRIVE
 your_image = ...
 FD_of_your_image = inference_pipeline(your_image)[0]
 print('Fractal dimension of your image is:', FD_of_your_image)
@@ -52,7 +51,6 @@ possible to make a pytorch-free version of DART. (E.g. numpy-only inference pipe
 ```python
 # 1. batched inference with the inference pipeline (faster than single images)
 from dart import get_inference_pipeline
-
 inference_pipeline = get_inference_pipeline(model_name='resnet18')
 # iterate over your torch style dataloader
 for batch_of_images in your_torch_data_loader:
@@ -61,7 +59,6 @@ for batch_of_images in your_torch_data_loader:
 
 # 2. access the components of the inference pipeline themselves
 from dart import get_model_and_processing
-
 # this returns a dict containing the model, preprocessing and postprocessing pipelines, and config
 model_and_processing = get_model_and_processing(model_name='resnet18')
 your_image = ...
@@ -71,7 +68,6 @@ FD_of_your_image = model_and_processing['postprocessing'](FD_unscaled)
 
 # 3. access just the model
 from dart import load_model
-
 # pytorch compatible model, e.g. for writing your own highly efficient inference loop 
 # (with your own preprocessing and postprocessing, see the cfg for details)
 model = load_model(model_name='resnet18')
