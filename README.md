@@ -1,5 +1,7 @@
 ## Deep approximation of retinal traits (DART)
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/justinengelmann/DART_retinal_fractal_dimension/blob/main/ColabNotebook/ColabVersion_DART_tutorial_and_demo.ipynb)
+
 **Preprint**: https://arxiv.org/abs/2207.05757
 (to appear in the Proceedings of the 9th MICCAI Workshop on Ophthalmic Medical Image Analysis at MICCAI 2022)
 
@@ -31,15 +33,20 @@ your_image = ...
 FD_of_your_image = inference_pipeline(your_image)[0]
 print('Fractal dimension of your image is:', FD_of_your_image)
 ```
+That's it. Should be quite fast, even on cpu.
 
 #### Installation / Setup
+```commandline
+(install pytorch and torchvision: https://pytorch.org/get-started/locally/)
+git clone https://github.com/justinengelmann/DART_retinal_fractal_dimension.git
+cd DART_retinal_fractal_dimension
+pip install timm==0.5.4
+```
 
-I aimed to keep dependencies fairly low. You should only need to install the following dependencies:
+Written in Python 3.9.12, but other versions are likely to work, too. I aimed to keep dependencies fairly low. You should only need to a more or less recent version of PyTorch / torchvision (I used versions 1.11.0 / 0.12.0 but backwards compatibility tends be quite good).
+and timm (pytorch image models) version 0.5.4.
 
-* A more or less recent version of PyTorch
-* timm (pytorch image models)
-
-Optionally, you can also install albumentations. The model was trained with albumentations for data augmentation, but
+Optionally, you can also install albumentations version 1.2.0. The model was trained with albumentations for data augmentation, but
 the torchvision equivalents of the preprocessing functions yield the same results up to tiny differences in the order of
 1e-7 for the input images, and no difference in the output (in my limited testing).
 
