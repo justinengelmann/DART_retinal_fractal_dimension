@@ -41,8 +41,8 @@ def get_preprocessing(resolution=224, norm_mean_stds=None, resize=True,
         if resize:
             transforms.append(T.Lambda(resize_fn))
             transforms.append(T.Lambda(lambda x: Image.fromarray(x)))
-        transforms.append(T.Normalize(norm_mean_stds[0], norm_mean_stds[1]))
         transforms.append(T.ToTensor())
+        transforms.append(T.Normalize(norm_mean_stds[0], norm_mean_stds[1]))
         return DARTPreprocessingWrapper(preprocessing=T.Compose(transforms), transforms_backend='torchvision',
                                         resolution=resolution, resize=resize, norm_mean_stds=norm_mean_stds)
 
