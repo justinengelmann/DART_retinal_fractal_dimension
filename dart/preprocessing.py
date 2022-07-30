@@ -82,6 +82,7 @@ class DARTPreprocessingWrapper:
 def _check_albumentations_available():
     try:
         import albumentations as A
+        from albumentations.pytorch.transforms import ToTensorV2
         return True
     except ImportError:
         return False
