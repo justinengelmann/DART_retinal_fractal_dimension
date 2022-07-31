@@ -1,15 +1,12 @@
-## Deep approximation of retinal traits (DART)
-
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/justinengelmann/DART_retinal_fractal_dimension/blob/main/ColabNotebook/ColabVersion_DART_tutorial_and_demo.ipynb)
 
 ![Overview of DART](figs/DART_header_tight_resized.png)
 
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/justinengelmann/DART_retinal_fractal_dimension/blob/main/ColabNotebook/ColabVersion_DART_tutorial_and_demo.ipynb) 
 
+Code for "Robust and efficient computation of retinal fractal dimension through deep approximation" (preprint: https://arxiv.org/abs/2207.05757
+; to appear in the Proceedings of the 9th MICCAI Workshop on Ophthalmic Medical Image Analysis)
 
-**Preprint**: https://arxiv.org/abs/2207.05757
-(to appear in the Proceedings of the 9th MICCAI Workshop on Ophthalmic Medical Image Analysis at MICCAI 2022)
-
-DART allows to compute retinal traits very quickly (200-1,000 img/s on a single machine) and in a way that is more robust to image quality
+DART (Deep Approximation of Retinal Traits) allows to compute retinal traits very quickly (200-1,000 img/s on a single machine) and in a way that is more robust to image quality
 issues. We achieve that by approximating an existing pipeline for calculating a retinal trait with a deep neural
 network. This network outputs the target value directly, without any intermediate steps, and can be trained to ignore
 quality variations.
