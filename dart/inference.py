@@ -7,13 +7,17 @@ from .preprocessing import get_preprocessing
 
 
 def get_model_and_processing(model_name='resnet18', device='cuda_if_available',
-                             resize_images=True, preprocessing_backend='albumentations_if_available',
+                             resize_images=True, crop_black_borders=False, crop_threshold=20,
+                             preprocessing_backend='albumentations_if_available',
                              loading_verbose=True, loading_pbar=True):
     cfg = _get_cfg(model_name=model_name)
 
     preprocessing = get_preprocessing(resolution=cfg['input_size'][1:],
                                       norm_mean_stds=cfg['norm_mean_stds'],
                                       resize=resize_images,
+                                      crop_black_borders=crop_black_borders,
+                                      crop_threshold=crop_threshold,
+
                                       transforms_backend=preprocessing_backend)
 
     postprocessing = get_postprocessing(cfg=cfg)
@@ -24,10 +28,13 @@ def get_model_and_processing(model_name='resnet18', device='cuda_if_available',
 
 
 def get_inference_pipeline(model_name='resnet18', device='cuda_if_available',
-                           resize_images=True, preprocessing_backend='albumentations_if_available',
+                           resize_images=True, crop_black_borders=False, crop_threshold=20,
+                           preprocessing_backend='albumentations_if_available',
                            loading_verbose=True, loading_pbar=True):
     model_and_processing = get_model_and_processing(model_name=model_name, device=device,
                                                     resize_images=resize_images,
+                                                    crop_black_borders=crop_black_borders,
+                                                    crop_threshold=crop_threshold,
                                                     preprocessing_backend=preprocessing_backend,
                                                     loading_verbose=loading_verbose,
                                                     loading_pbar=loading_pbar)
