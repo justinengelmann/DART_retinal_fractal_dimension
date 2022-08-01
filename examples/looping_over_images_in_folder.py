@@ -59,7 +59,7 @@ print('Inference complete!')
 
 print('Writing results to file...')
 with open('dart_inference_results.csv', 'w') as f:
-    f.write('image_path,FD\n')
+    f.write('image_path,image_name,FD\n')
     for img_path, img_name, FD in results:
         f.write(f'{img_path}, {img_name}, {FD}\n')
 
