@@ -1,6 +1,5 @@
 from functools import partial
 
-import matplotlib.pyplot as plt
 import numpy as np
 import torchvision.transforms as T
 from PIL import Image
