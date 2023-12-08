@@ -97,7 +97,7 @@ def _check_albumentations_available():
         return False
 
 
-def _resize_img_with_PIL(img, size, interpolation=Image.ANTIALIAS, **kwargs) -> np.ndarray:
+def _resize_img_with_PIL(img, size, interpolation=Image.LANCZOS, **kwargs) -> np.ndarray:
     # albumentations might force unwanted kwargs on us, so that's why we accept them here
     resolution = to_2tuple(size)
     if not isinstance(img, Image.Image):
