@@ -21,11 +21,14 @@ def _resolve_device(name) -> torch.device:
     else:
         return torch.device(name)
 
-
-def load_model(model_name='resnet18', device='cuda_if_available', pbar=True, verbose=True) -> torch.nn.Module:
+def load_model(model_name='resnet18', use_jit=True, device='cuda_if_available', pbar=True, verbose=True) -> torch.nn.Module:
     device = _resolve_device(device)
     cfg = _get_cfg(model_name)
-    url = cfg['url']
+    if use_jit:
+        url = cfg['jit_url']
+    else:
+        url = cfg['url']
+
 
     try:
         filepath = download_model(url=url, pbar=pbar, verbose=verbose)
