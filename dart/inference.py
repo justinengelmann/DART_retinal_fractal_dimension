@@ -6,7 +6,8 @@ from .postprocessing import get_postprocessing
 from .preprocessing import get_preprocessing
 
 
-def get_model_and_processing(model_name='resnet18', device='cuda_if_available',
+
+def get_model_and_processing(model_name='resnet18', device='cuda_if_available', use_jit=True,
                              resize_images=True, crop_black_borders=False, crop_threshold=20,
                              preprocessing_backend='albumentations_if_available',
                              loading_verbose=True, loading_pbar=True):
@@ -22,16 +23,16 @@ def get_model_and_processing(model_name='resnet18', device='cuda_if_available',
 
     postprocessing = get_postprocessing(cfg=cfg)
 
-    model = load_model(model_name=model_name, device=device, pbar=loading_pbar, verbose=loading_verbose)
+    model = load_model(model_name=model_name, device=device, use_jit=use_jit, pbar=loading_pbar, verbose=loading_verbose)
 
     return {'model': model, 'preprocessing': preprocessing, 'postprocessing': postprocessing, 'cfg': cfg}
 
 
-def get_inference_pipeline(model_name='resnet18', device='cuda_if_available',
+def get_inference_pipeline(model_name='resnet18', device='cuda_if_available', use_jit=True,
                            resize_images=True, crop_black_borders=False, crop_threshold=20,
                            preprocessing_backend='albumentations_if_available',
                            loading_verbose=True, loading_pbar=True):
-    model_and_processing = get_model_and_processing(model_name=model_name, device=device,
+    model_and_processing = get_model_and_processing(model_name=model_name, device=device, use_jit=use_jit,
                                                     resize_images=resize_images,
                                                     crop_black_borders=crop_black_borders,
                                                     crop_threshold=crop_threshold,
